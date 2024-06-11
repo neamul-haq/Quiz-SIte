@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Quiz Details</h2>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Quiz Title</h4>
+                    <p class="card-text">Time Remaining: <span id="timer"></span></p>
+
+                    <!-- Display the quiz form -->
+                    <form id="quiz-form" method="post">
+                        {% csrf_token %}
+                        {% for question in questions %}
+                        <fieldset class="mb-4">
+                            <legend>{{ question.text }}</legend>
+                            {% for option in question.option_set.all %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="option_{{ option.id }}" value="{{ option.id }}">
+                                <label class="form-check-label" for="option_{{ option.id }}">
+                                    {{ option.text }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </fieldset>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary" id="submit-button">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Add the "View Result" button and initially hide it -->
+            <div class="card">
+                <div class="card-body">
+                    <a href="{% url 'quiz_result' %}" id="view-result" class="btn btn-success btn-block" style="display: none;">View Result</a>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<!-- Add this script to create the countdown timer and disable form elements -->
+<script>
+    // Get the time remaining from the context
+    var timeRemaining = {{ time_remaining|default:10 }};
+    
+    // Function to update the timer display
+    function updateTimerDisplay() {
+        var minutes = Math.floor(timeRemaining / 60);
+        var seconds = timeRemaining % 60;
+        document.getElementById('timer').innerHTML = minutes + 'm ' + seconds + 's';
+    }
+
+    // Function to start the countdown
+    function startTimer() {
+        updateTimerDisplay();
+        var timerInterval = setInterval(function() {
+            timeRemaining--;
+            updateTimerDisplay();
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                disableQuizForm(); // Disable the form elements when the timer ends
+                showViewResultButton(); // Show the "View Result" button
+            }
+        }, 1000);
+    }
+
+    function disableQuizForm() {
+        var form = document.getElementById('quiz-form');
+        var inputs = form.getElementsByTagName('input');
+        var submitButton = document.getElementById('submit-button');
+
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].disabled = true;
+        }
+        submitButton.disabled = true;
+    }
+
+    function showViewResultButton() {
+        var viewResultButton = document.getElementById('view-result');
+        viewResultButton.style.display = 'block';
+    }
+
+    if (timeRemaining !== null) {
+        startTimer();
+    }
+</script>
+{% endblock %}

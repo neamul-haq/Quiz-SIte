@@ -1,0 +1,13 @@
+{% comment %} {% extends "base.html" %}
+
+{% block title %}Account Home Page{% endblock %}
+
+{% block content %}
+    <p>Hello, {{ request.user }}!</p>
+    <h1>Welcome to the Account Home Page</h1>
+    <p><a href="{% url 'register' %}">Signup</a></p>
+    <p><a href="{% url 'login' %}">Login</a></p>
+    <p><a href="{% url 'view_profile' %}">View Profile</a></p>
+    <p><a href="{% url 'edit_profile' %}">Edit Profile</a></p>
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+{% endblock %} {% endcomment %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Edit Profile</h2>
+                    <hr>
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Display form fields in a well-organized manner -->
+                        <div class="form-group">
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.bio.label_tag }}
+                            {{ form.bio }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.profile_image.label_tag }}
+                            {{ form.profile_image }}
+                        </div>
+                        
+                        <!-- Add a "Save Changes" button -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                    
+                    <!-- Add a "View Profile" link -->
+                    <div class="mt-4 text-center">
+                        <a href="{% url 'view_profile' %}" class="btn btn-secondary">View Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

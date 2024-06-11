@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Quiz Result</h2>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Quiz: {{ user_history.quiz.title }}</h4>
+                    <h1 class="display-2">Your Score: {{ user_history.score }}%</h1>
+                    <p class="card-text">Congratulations on completing the quiz!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <a href="{% url 'quiz_list_new' %}" class="btn btn-primary">Back to Quizzes</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

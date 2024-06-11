@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="mt-4">Available Quizzes</h2>
+        <hr>
+
+        <div class="row">
+            {% for quiz in quizzes %}
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ quiz.title }}</h5>
+                        <p class="card-text">{{ quiz.description }}</p>
+                        <p class="card-text">Average Rating: {{ quiz.average_rating }}</p>
+                        <a href="{% url 'quiz_detail' quiz.pk %}" class="btn btn-primary">Start Quiz</a>
+                        {% comment %} <a href="{% url 'rate_quiz' quiz.id %}" class="btn btn-secondary">Rate this quiz</a> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
